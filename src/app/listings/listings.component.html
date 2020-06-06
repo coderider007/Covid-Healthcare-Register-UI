@@ -104,6 +104,7 @@
           <th scope="col">Email</th>
           <th scope="col">Subscribe</th>
           <th scope="col">Directions</th>
+          <th scope="col" *ngIf="isLoggedIn">Edit</th>
         </tr>
       </thead>
       <tbody>
@@ -118,26 +119,29 @@
         <td>
           <span>{{hospitalRecord.itemName}}</span>
         </td>
-        <td *ngIf="hospitalRecord.isAvailable" class="bg-success">
+        <td *ngIf="hospitalRecord.availableCount > 0" class="bg-success">
           <span>YES</span>
         </td>
-        <td *ngIf="!hospitalRecord.isAvailable" class="bg-danger">
+        <td *ngIf="hospitalRecord.availableCount == 0" class="bg-danger">
           <span>NO</span>
         </td>
         <td>
-          <span>{{hospitalRecord.name}}</span>
+          <span>{{hospitalRecord.hospitalRegistration.name}}</span>
         </td>
         <td>
-          <span>{{hospitalRecord.phone}}</span>
+          <span>{{hospitalRecord.hospitalRegistration.phone}}</span>
         </td>
         <td>
-          <span>{{hospitalRecord.email}}</span>
+          <span>{{hospitalRecord.hospitalRegistration.emailId}}</span>
         </td>
         <td>
           <input type="checkbox" (change)="subscribeAddRemove($event, hospitalRecord)">
         </td>
         <td>
-          <a class="nav-item nav-link text-black" href="#" routerLink="/location" [queryParams]="{'latitude': hospitalRecord.latitude, 'longitude': hospitalRecord.longitude}">Directions</a>
+          <a class="nav-item nav-link text-black" href="#" routerLink="/location" [queryParams]="{'latitude': hospitalRecord.hospitalRegistration.latitude, 'longitude': hospitalRecord.hospitalRegistration.longitude}">Directions</a>
+        </td>
+        <td *ngIf="isLoggedIn">
+          <a class="nav-item nav-link text-black" href="#" routerLink="/manage" [state]="{ data: hospitalRecord}">Edit</a>
         </td>
       </tr>
       </tbody>
